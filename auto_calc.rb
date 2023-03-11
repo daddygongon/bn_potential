@@ -22,7 +22,7 @@ end
 File.write("ewald_res.yaml", YAML.dump(trace))
 
 trace = YAML.load(File.read('ewald_res.yaml'))
-trace[:y].map!{|v| v/8.0}
+trace[:y].map!{|v| v} # /8
 trace[:x].map!{|v| v-1.0} # 0.98879
 p trace
 
