@@ -1,0 +1,164 @@
+ 
+ PMD --- Parallel Molecular Dynamics ---
+ 
+   Revision: rev230213
+   Contributors: 
+     - Ryo KOBAYASHI <kobayashi.ryo@nitech.ac.jp>
+ 
+ Job started at 15:57:45 on 2023-03-09
+ 
+ Read pmdini in ascii mode.
+ Species order read from pmdini option: 
+    1:    B
+    2:    N
+ 
+ Lattice vectors:
+   a = [        4.000       0.000       0.000 ]
+   b = [        0.000       4.000       0.000 ]
+   c = [        0.000       0.000       4.000 ]
+ Lattice parameters:
+   |a| =      4.000 Ang.,  alpha =   90.00 deg.
+   |b| =      4.000 Ang.,  beta  =   90.00 deg.
+   |c| =      4.000 Ang.,  gamma =   90.00 deg.
+ Cell volume = 64.00 Ang^3
+ Number of each species in the initial configuration
+   B  :  4
+   N  :  4
+ 
+ Num of MPI processes = 1
+ 
+------------------------------------------------------------------------
+           Initial setting   
+------------------------------------------------------------------------
+  num_nodes_x     -1
+  num_nodes_y     -1
+  num_nodes_z     -1
+  
+  io_format     ascii 
+  print_level     1
+  
+  time_interval     1.000
+  num_iteration     0
+  num_out_energy     100
+  
+  flag_out_pmd     2
+  num_out_pmd     50
+  dump_aux_order    ekin epot sxx syy szz syz sxz sxy 
+  
+  force_type     Coulomb
+  cutoff_radius     10.000
+  cutoff_buffer      0.000
+  
+  flag_damping     0
+  damping_coeff     .9900
+  converge_eps       1.0E-04
+  converge_num     1
+  min_iteration     0
+  
+  temperature_control     none
+  initial_temperature         0.00
+  remove_translation     0
+  
+  stress_control     none
+ 
+  
+  factor_direction
+       0   0.000   0.000   0.000
+       1   1.000   1.000   1.000
+       2   1.000   1.000   1.000
+       3   1.000   1.000   1.000
+       4   1.000   1.000   1.000
+       5   1.000   1.000   1.000
+       6   1.000   1.000   1.000
+       7   1.000   1.000   1.000
+       8   1.000   1.000   1.000
+       9   1.000   1.000   1.000
+  
+  mass
+       1 B     10.8100
+       2 N     14.0070
+  
+  boundary     ppp
+  
+------------------------------------------------------------------------
+ NNMAX is replaced since it is too small w.r.t. given cutoff radius.
+    nnmax_orig, nnmax_new =   50  125
+
+ Broadcast data to be shared with all the nodes.
+ 
+ Number of total atoms = 8
+ Number of species     = 2
+ 
+ Use the following force-fields:  Coulomb 
+
+ Coulomb parameters:
+   fixed charge:   B  1  1.0000
+   fixed charge:   N  2 -1.0000
+
+ Number of spatial divisions automatically set, NX,NY,NZ= 1 1 1
+ 
+ Ensemble = NVE
+ 
+ Number of ifmvs = 1
+ 
+ space_decomp:
+   rcut, rbuf = 10.000 0.000
+   Min number of local atoms =          8
+   Max number of local atoms =          8
+     nbmax =       1720
+     namax = nalmax*1.2 + nbmax  =       1920
+ Degrees of freedom for each ifmv =  24  0  0  0  0  0  0  0  0
+ Updated namax and array since nbmax changed from         1720  to         3283
+ 
+ Estimation of num of neighbors:
+   Max num in link-list cell =     8
+   Cell volume and density = 64.0   0.1250
+   Max num of neighbors, that incl. margin =  524 576
+
+ Max num of neighbors =   524
+
+ Ewald sum parameters:
+   1/(4*pi*eps0)        =      14.3999
+   Accuracy parameter p =       9.2103
+   Gaussian width sgm   =       2.3300
+   real-space cutoff    =      10.0000
+   k-space cutoff       =       1.8421
+ Reciprocal vectors:
+   b1 =    1.571E+00   0.000E+00   0.000E+00
+   b2 =    0.000E+00   1.571E+00   0.000E+00
+   b3 =    0.000E+00   0.000E+00   1.571E+00
+ Number of k-points for Ewald sum:
+   kmax1 = 1
+   kmax2 = 1
+   kmax3 = 1
+   total = 6
+ 
+ Ewald energy by terms:
+   Self term         =     -19.7247 eV
+   Short-range term  =     -34.7517 eV
+   Long-range term   =       0.0000 eV
+ 
+ Initial values:
+   Kinetic energy  =          0.00000 eV =      0.000 eV/atom
+   Potential energy=        -54.47645 eV =     -6.810 eV/atom
+   Temperature 1   =          0.00000 K
+   Temperature     =          0.00000 K
+   Pressure        =        -45.50542 GPa (tensile)
+   Stress tensor   =   -45.505   -45.505   -45.505    -0.000    -0.000    -0.000
+ 
+ istp,etime,temp,epot,vol,prss= 0        0.01        0.00  -5.4476E+01  6.400E+01 -4.551E+01
+ 
+ Final values:
+   Kinetic energy  =          0.00000 eV =      0.000 eV/atom
+   Potential energy=        -54.47645 eV =     -6.810 eV/atom
+   Temperature 1   =          0.00000 K
+   Temperature     =          0.00000 K
+   Pressure        =        -45.50542 GPa (tensile)
+ 
+ Max num of neighbors during MD = 524
+ Max num of boundary atoms during MD = 2736
+ 
+ Time   total =      0.007 sec =   0h00m00s
+ Memory per MPI-proc =      8.960 MB  
+ 
+ Job finished at 15:57:45 on 2023-03-09
