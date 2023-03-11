@@ -1,0 +1,126 @@
+#+OPTIONS: ^:{}
+#+STARTUP: indent nolineimages overview num
+#+TITLE: BN
+#+AUTHOR: Shigeto R. Nishitani
+#+EMAIL:     (concat "shigeto_nishitani@mac.com")
+#+LANGUAGE:  jp
+# +OPTIONS:   H:4 toc:t num:2
+#+OPTIONS:   toc:nil
+#+TAG: hoge, hoge2
+#+TWITTER: off
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+* todo <2023-03-09 木>[2/3]
+- [-] Bob's path[2/3]
+  - [ ] check poscar for boundary
+  - [X] large model and xy-z relax
+  - [X] with small defects
+- [X] Ewald [3/3]
+  - [X] ask code to RyoKoba
+  - [X] check it
+    - [X] https://github.com/ryokbys/nap DL
+    - [X] compile : failed, asking <2023-03-09 木>
+  - [X] use it
+- [X] simple fitting
+- [ ] include plot <2023-03-10 金>
+- [ ] boundary energy
+
+* 手順
+- cp POSCAR_hoge POSCAR_BN
+
+* EAM + Ewald
+: ruby relax/cubic/lda/mk_data.rb
+でVASPのE-V curveを取得．
+
+その後，mapleでfitting.
+* Ewald <2023-03-09 木>
+- [[https://github.com/ryokbys/nap][小林さんのnap]]を使ってみようと，
+
+エラーが出たが，
+#+begin_quote
+どうもコンパイルは通っているけども，
+make test でテストする際の
+mpirunコマンドのオプション「--oversubscribe」がダメと言われているようです．
+（こちらの環境がIntel系でなく，GNU系だったので通っていたのですが）
+nap/examples/pmd_XXX の中のmakefile内で
+「--oversubscribe」となっているところを削除してもらうとエラーが
+なくなるのではないかと思います．
+
+試してみてください．
+#+end_quote
+: emacs examples/pmd_parallel/makefile
+でそこだけ削除．
+
+#+begin_src bash
+ PASS: parallel 2 in examples/pmd_parallel
+ PASS: parallel 4 in examples/pmd_parallel
+ PASS: parallel 8 in examples/pmd_parallel
+ PASS: examples/pmd_ttm_Si
+ PASS: examples/pmd_BVS_LLZO
+ PASS: examples/pmd_W
+ PASS: examples/pmd_DNN_SiO
+ PASS: examples/fitpot_DNN_SiO
+
+ To setup PYTHONPATH for nappy (pre/post-processing utility package), see the documentation:
+   http://ryokbys.web.nitech.ac.jp/contents/nap_docs/install.html#setup-nappy-required-for-fppy
+
+#+end_src
+
+
+** install
+macにinstallしようとしたが，Fortranがダメって．
+- brew install gfortran
+- brew install open-mpi
+などで入れているが，mpiが動かない．
+
+open-mpiの直導入を試みたが，これもerror.
+gfortranで生成しないとのerror.
+
+which gcc => /usr/bin/gcc
+which gfortran => /opt/homebrew/bin/gfortran
+あたりがおかしそう．
+
+**  使用説明
+添付ファイルを展開して，そのディレクトリ内で，
+  napsys convert POSCAR_BN pmdini
+として pmdini に変換したのち，
+  /path/to/pmd | tee out.pmd
+のようにして実行すると結果がout.pmdに出力されます．
+- in.params.Coulombの中でB,Nの電荷を指定しています．
+- in.pmdのcutoff_radiusで実空間のカットオフを決定し，波数空間カットオフは自動的に決定するようになっていたと思います．
+
+Ewaldコードはあまり検証されていないので，何かバグっていたら教えていただけると幸いです．
+
+** コマンド
+#+begin_src bash
+> mkdir ryo_sample
+> cd ryo_sample/
+> python ../nappy/napsys.py convert POSCAR_BN pmdini
+> ../pmd/pmd | tee out.pmd
+#+end_src
+
+** 出力
+#+begin_src
+ Ewald energy by terms:
+   Self term         =     -19.7247 eV
+   Short-range term  =     -34.7517 eV
+   Long-range term   =       0.0000 eV
+ 
+ Initial values:
+   Kinetic energy  =          0.00000 eV =      0.000 eV/atom
+   Potential energy=        -54.47645 eV =     -6.810 eV/atom
+   Temperature 1   =          0.00000 K
+   Temperature     =          0.00000 K
+   Pressure        =        -45.50542 GPa (tensile)
+   Stress tensor   =   -45.505   -45.505   -45.505    -0.000    -0.000    -0.000
+ 
+ istp,etime,temp,epot,vol,prss= 0        0.01        0.00  -5.4476E+01  6.400E+01 -4.551E+01
+ 
+ Final values:
+   Kinetic energy  =          0.00000 eV =      0.000 eV/atom
+   Potential energy=        -54.47645 eV =     -6.810 eV/atom
+#+end_src
+
+
+
+
