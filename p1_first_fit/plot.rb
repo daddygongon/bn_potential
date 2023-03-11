@@ -9,11 +9,11 @@ class LJBN < EAM
   attr_accessor :cut_off
   #  <2023-03-10 金>
   # derive LJ in ewald_fitting.mw
-AA = 0.932307
-BB = 1.480392
-VN = 7.761241
-VM = 3.880620
-R0 = 1.570105
+AA = 0.924754
+BB = 1.473289
+VN = 7.822700
+VM = 3.911350
+R0 = 1.552398
 
   K2eV = 8.617385e-05
   ALat = 3.626
@@ -45,7 +45,8 @@ R0 = 1.570105
 end
 
 def e_ewald(x)
-  val = 15.73855996*x**3 - 7.697594308*x**2 + 7.500302033*x - 7.511357132
+  x = x/3.626002-1.0
+  val = 10.65283172*x**3 + (-1)*7.818569264*x**2 + 7.430530135*x - 7.509501261
   val * 8
 end
 
@@ -55,20 +56,22 @@ trace[:x].map!{|v| v/3.626002-1.0} # 0.98879
 p trace
 
 xx, y1, y2, y3 = [], [], [], []
-vols = [*0..10].collect{|v| -0.04 + v*0.01}
+vols = [*0..9].collect{|v| -0.04+v*0.005}
 vols.each do |val|
   #  vol = 3.626002*val
-  x = 1.0 +val 
+  x = 1+val
   xx << x
   ModPoscar.new(x, 0, 0, 0.0)
   poscar = Poscar.new("POSCAR")
+  l0 = poscar.lat_vec[0]
   lj = LJBN.new(poscar)
+#  lj.puts_each_atom_energy
   e_lj = lj.total_energy
-
-  p [val, x, e_ewald(val)/8, e_lj/8, (e_ewald(val) + e_lj)/8]
-  y1 << e_ewald(val)
+  
+  #l0 = 3.626 
+  y1 << e_ewald(l0)
   y2 << e_lj
-  y3 << (e_ewald(val) + e_lj)/8
+  y3 << (e_ewald(l0) + e_lj)/8
 end
 
 traces = [#{x: xx, y: y1},
