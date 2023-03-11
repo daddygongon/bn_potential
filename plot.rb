@@ -47,7 +47,8 @@ end
 def e_ewald(x)
   val = 15.73855996*x**3 - 7.697594308*x**2 + 7.500302033*x - 7.511357132 #p8
 #  val = 15.73855996*x^3 - 7.697594308*x^2 + 7.500302033*x - 7.511357132 #p24
-  val * 24
+  val = 76.36350686*x**3 - 61.42859654*x**2 + 60.47310556*x - 66.80819236
+  val * 8
 end
 
 trace = YAML.load(File.read('ewald_res.yaml'))
@@ -63,7 +64,7 @@ vols.each do |val|
   xx << x
   ModPoscar.new(x, 0, 0, 0.0)
   poscar = Poscar.new("POSCAR")
-  p n_atom = poscar.n_atoms
+  p n_atom = 1 || poscar.n_atoms
   lj = LJBN.new(poscar)
   e_lj = lj.total_energy
 
