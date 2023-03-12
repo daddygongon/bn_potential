@@ -56,27 +56,25 @@ trace[:x].map!{|v| v/3.626002-1.0} # 0.98879
 p trace
 
 xx, y1, y2, y3 = [], [], [], []
-vols = [*0..9].collect{|v| -0.04+v*0.005}
+#vols = [*0..9].collect{|v| -0.04+v*0.005}
+vols = [*0..9].collect{|v| -0.2+v*0.05}
 vols.each do |val|
-  #  vol = 3.626002*val
   x = 1+val
   xx << x
   ModPoscar.new(x, 0, 0, 0.0)
   poscar = Poscar.new("POSCAR")
   l0 = poscar.lat_vec[0]
   lj = LJBN.new(poscar)
-#  lj.puts_each_atom_energy
   e_lj = lj.total_energy
   
-  #l0 = 3.626 
-  y1 << e_ewald(l0)
-  y2 << e_lj
+  y1 << e_ewald(l0)/8
+  y2 << e_lj/8
   y3 << (e_ewald(l0) + e_lj)/8
 end
 
-traces = [#{x: xx, y: y1},
-          #{x: xx, y: y2},
-          {x: xx, y: y3}]  
+traces = [{x: xx, y: y1, name: 'Ewald sum'},
+          {x: xx, y: y2, name: 'Lennard-Jones'},
+          {x: xx, y: y3, name: 'Total energy'}]  
 layout = { title: 'Ewald sum',
            xaxis: { title: 'lattice expansion [l/l0]' },
            yaxis: { title: 'energy [eV/system]' } }

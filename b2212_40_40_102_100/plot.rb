@@ -45,8 +45,12 @@ R0 = 1.570105
 end
 
 def e_ewald(x)
-  val = 15.73855996*x**3 - 7.697594308*x**2 + 7.500302033*x - 7.511357132
-  val * 8
+  val = 15.73855996*x**3 - 7.697594308*x**2 + 7.500302033*x - 7.511357132 #p8
+#  val = 15.73855996*x^3 - 7.697594308*x^2 + 7.500302033*x - 7.511357132 #p24
+  val = 76.36350686*x**3 - 61.42859654*x**2 + 60.47310556*x - 66.80819236
+  val = 610.9485884*x**3 - 491.4299485*x**2 + 483.7847932*x - 534.4655379
+  val = 863.6767353*x**3 - 592.4086927*x**2 + 584.2185423*x - 584.8103513
+#  val * 8
 end
 
 trace = YAML.load(File.read('ewald_res.yaml'))
@@ -62,13 +66,14 @@ vols.each do |val|
   xx << x
   ModPoscar.new(x, 0, 0, 0.0)
   poscar = Poscar.new("POSCAR")
+  p n_atom = 1 || poscar.n_atoms
   lj = LJBN.new(poscar)
   e_lj = lj.total_energy
 
-  p [val, x, e_ewald(val)/8, e_lj/8, (e_ewald(val) + e_lj)/8]
+  p [val, x, e_ewald(val)/n_atom, e_lj/n_atom, (e_ewald(val) + e_lj)/n_atom]
   y1 << e_ewald(val)
   y2 << e_lj
-  y3 << (e_ewald(val) + e_lj)/8
+  y3 << (e_ewald(val) + e_lj)/n_atom
 end
 
 traces = [#{x: xx, y: y1},
