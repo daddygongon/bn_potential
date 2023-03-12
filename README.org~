@@ -10,9 +10,9 @@
 #+TWITTER: off
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 
-* todo <2023-03-09 木>[6/6] finish <2023-03-12 日>
-- [X] Bob's path[2/2]
-  - check poscar for boundary
+* todo <2023-03-09 木>[2/3]
+- [-] Bob's path[2/3]
+  - [ ] check poscar for boundary
   - [X] large model and xy-z relax
   - [X] with small defects
 - [X] Ewald [3/3]
@@ -22,18 +22,7 @@
     - [X] compile : failed, asking <2023-03-09 木>
   - [X] use it
 - [X] simple fitting
-- [X] include plot <2023-03-10 金>
-- [X] boundary energy <2023-03-11 土> 
-- [X] make README.org <2023-03-12 日>
-* 手順
-- cp POSCAR_hoge POSCAR_BN
-- cp POSCAR_hoge POSCAR_orig
-- ruby auto_calc.rb (at asura0)
-- copy resutls on ewald_fitting.mw
-- get the fitted Ewald equation
-- copy it on plot.rb 
-- ruby plot.rb
-これで終わり．
+- [ ] include plot <2023-03-10 金>
 
 * EAM + Ewald
 : ruby relax/cubic/lda/mk_data.rb

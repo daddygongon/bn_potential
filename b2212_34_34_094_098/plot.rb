@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 require 'rbplotly'
 require 'yaml'
-require './poscar'
-require './eam'
-require './jindo_lj'
+require '../poscar'
+require '../eam'
+require '../jindo_lj'
 
 class LJBN < EAM
   attr_accessor :cut_off
